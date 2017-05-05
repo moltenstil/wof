@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+	<meta charset="UTF-8">
+	
+	<title>mouseIx</title>
+	
+	<style type="text/css">
+	canvas {
+		border: 2px solid black;
+		}
+	body {
+		margin: 0;
+		background: #ff3377;
+		}
+	</style>
+	
+<script>
+
+		var ax = 0;
+		var ay = 0;
+
+function initCanvas() {
+	
+	var canvas = document.getElementById("my_canvas");
+
+	// test elements for hover: console.log(canvas);
+
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	
+	
+	
+	
+	
+	var ctx = document.getElementById('my_canvas').getContext('2d');
+	window.ondevicemotion = function(event) {
+		ctx.clearRect(0, 0, innerWidth, innerHeight);
+	
+					rR = event.rotationRate;
+					if (rR != null) {
+						ay += Math.round(- 0.1 * (rR.alpha));
+						ax += Math.round(0.1 * (rR.beta));
+						arGamma = Math.round(rR.gamma);
+					}
+					
+		var status = document.getElementById('status');
+		status.innerHTML = ax +" | "+ ay;
+		
+		
+		ctx.beginPath(); 
+		ctx.arc( (canvas.width/2)+ax, (canvas.height/2)+ay, 30, 0, Math.PI*2, false);
+		ctx.fillStyle = 'white';	
+		ctx.fill();
+		
+		
+	};
+	ctx.canvas.addEventListener('click', function(event){
+		var mouseX = event.clientX - ctx.canvas.offsetLeft;
+		var mouseY = event.clientY - ctx.canvas.offsetTop;
+		var status = document.getElementById('status');
+		
+		
+		ctx.fillRect(mouseX, mouseY, 40, 40);
+	});
+	
+	
+	
+	
+	
+}
+window.addEventListener('load', function(event) {
+	initCanvas();
+});
+
+</script>
+
+<body>
+<canvas id="my_canvas" ></canvas>
+<H2 id="status">0 | 0</H2>
+
+</body>
+</html>
+
